@@ -1999,25 +1999,26 @@ int _glfwPlatformCreateCursor(_GLFWcursor* cursor,
 
 int _glfwPlatformCreateStandardCursor(_GLFWcursor* cursor, int shape)
 {
-    int id = 0;
+    LPCWSTR name = NULL;
 
     if (shape == GLFW_ARROW_CURSOR)
-        id = OCR_NORMAL;
+        name = IDC_ARROW;
     else if (shape == GLFW_IBEAM_CURSOR)
-        id = OCR_IBEAM;
+        name = IDC_IBEAM;
     else if (shape == GLFW_CROSSHAIR_CURSOR)
-        id = OCR_CROSS;
+        name = IDC_CROSS;
     else if (shape == GLFW_HAND_CURSOR)
-        id = OCR_HAND;
+        name = IDC_HAND;
     else if (shape == GLFW_HRESIZE_CURSOR)
-        id = OCR_SIZEWE;
+        name = IDC_SIZEWE;
     else if (shape == GLFW_VRESIZE_CURSOR)
-        id = OCR_SIZENS;
+        name = IDC_SIZENS;
     else
         return GLFW_FALSE;
 
-    cursor->win32.handle =
-            (HCURSOR)LoadImage(NULL, MAKEINTRESOURCE(id), IMAGE_CURSOR, 0, 0, LR_DEFAULTSIZE | LR_SHARED);
+    cursor->win32.handle = LoadImageW(NULL,
+                                      name, IMAGE_CURSOR, 0, 0,
+                                      LR_DEFAULTSIZE | LR_SHARED);
     if (!cursor->win32.handle)
     {
         _glfwInputErrorWin32(GLFW_PLATFORM_ERROR,
@@ -2031,7 +2032,7 @@ int _glfwPlatformCreateStandardCursor(_GLFWcursor* cursor, int shape)
 void _glfwPlatformDestroyCursor(_GLFWcursor* cursor)
 {
     if (cursor->win32.handle)
-        DestroyIcon((HICON) cursor->win32.handle);
+        DestroyCursor(cursor->win32.handle);
 }
 
 void _glfwPlatformSetCursor(_GLFWwindow* window, _GLFWcursor* cursor)
