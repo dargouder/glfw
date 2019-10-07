@@ -248,3 +248,14 @@ if (GLFW_INSTALL)
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 endif()
 
+if(APPLE)
+elseif(UNIX)
+elseif(WIN32)
+	#copying built lib to the output
+	add_custom_command(
+	TARGET glfw
+	POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy
+	  ${CMAKE_SOURCE_DIR}/build/glfw/src/$<CONFIGURATION>/glfw3.lib
+	  ${CMAKE_SOURCE_DIR}/../builtDependencies/windows/$<CONFIGURATION>/glfw3.lib)		
+endif()
