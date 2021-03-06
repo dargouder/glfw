@@ -257,6 +257,13 @@ if(APPLE)
 	  ${CMAKE_SOURCE_DIR}/build/glfw/src/libglfw3.a
 	  ${CMAKE_SOURCE_DIR}/../builtDependencies/apple/$<CONFIGURATION>/libglfw3.a)	
 elseif(UNIX)
+	#copying built lib to the output
+	add_custom_command(
+	TARGET glfw
+	POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy
+	  ${CMAKE_SOURCE_DIR}/build/glfw/src/libglfw3.a
+	  ${CMAKE_SOURCE_DIR}/../builtDependencies/unix/$<CONFIGURATION>/libglfw3.a)
 elseif(WIN32)
 	#copying built lib to the output
 	add_custom_command(
